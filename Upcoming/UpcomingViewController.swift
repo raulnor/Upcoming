@@ -165,22 +165,41 @@ extension UpcomingViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UpcomingItemCell", for: indexPath) as! UpcomingItemCell
         let item = upcomingItems[indexPath.row]
 
-        var title = ""
+        var eventName = ""
+        var eventDate = ""
+        var calendarName = ""
+
         switch item.type {
         case .event:
             if let event = EventKitManager.shared.getEvent(withIdentifier: item.calendarIdentifier) {
-                title = event.title ?? "Untitled Event"
+                eventName = event.title ?? "Untitled Event"
+                eventDate = formatDate(event.startDate, isAllDay: event.isAllDay)
+                calendarName = event.calendar.title
             }
         case .calendar:
             if let calendar = EventKitManager.shared.getCalendar(withIdentifier: item.calendarIdentifier) {
-                title = calendar.title
+                if let nextEvent = EventKitManager.shared.getNextEvent(for: calendar) {
+                    eventName = nextEvent.title ?? "Untitled Event"
+                    eventDate = formatDate(nextEvent.startDate, isAllDay: nextEvent.isAllDay)
+                } else {
+                    eventName = "No upcoming events"
+                    eventDate = ""
+                }
+                calendarName = calendar.title
             }
         }
 
         let daysRemaining = getDaysRemaining(for: item)
-        cell.configure(title: title, daysRemaining: daysRemaining, type: item.type)
+        cell.configure(eventName: eventName, eventDate: eventDate, calendarName: calendarName, daysRemaining: daysRemaining, type: item.type)
 
         return cell
+    }
+
+    private func formatDate(_ date: Date, isAllDay: Bool) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = isAllDay ? .none : .short
+        return formatter.string(from: date)
     }
 }
 
