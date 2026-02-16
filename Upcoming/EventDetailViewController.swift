@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import EventKit
+internal import EventKit
 
 class EventDetailViewController: UIViewController {
     private let event: EKEvent

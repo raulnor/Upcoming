@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import EventKit
+internal import EventKit
 
 class CalendarDetailViewController: UIViewController {
     private let calendar: EKCalendar

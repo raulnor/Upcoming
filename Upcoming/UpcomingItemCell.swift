@@ -6,6 +6,7 @@
 //
 
 import UIKit
+internal import EventKit
 
 class UpcomingItemCell: UITableViewCell {
     private let iconView = UIImageView()
@@ -89,23 +90,35 @@ class UpcomingItemCell: UITableViewCell {
             infoStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
         ])
     }
-
-    func configure(eventName: String, eventDate: String, calendarName: String, daysRemaining: Int?, type: UpcomingItemType) {
-        // Set icon based on type
-        let iconName = type == .event ? "clock" : "calendar"
-        iconView.image = UIImage(systemName: iconName)
-
-        // Set event name
-        eventNameLabel.text = eventName
-
-        // Set event date
-        eventDateLabel.text = eventDate
-
-        // Set calendar name
-        calendarNameLabel.text = calendarName
-
-        // Set days remaining
-        if let days = daysRemaining {
+    
+    func configure(for calendar: EKCalendar) {
+        iconView.image = UIImage(systemName: "calendar")
+        if let nextEvent = EventKitManager.shared.getNextEvent(for: calendar) {
+            eventNameLabel.text = nextEvent.title ?? "Untitled Event"
+            eventDateLabel.text = formatDate(nextEvent.startDate, isAllDay: nextEvent.isAllDay)
+            calendarNameLabel.text = nextEvent.calendar.title
+            if let days = getDaysRemaining(for: nextEvent.startDate) {
+                if days == 0 {
+                    daysLabel.text = "Today"
+                } else if days == 1 {
+                    daysLabel.text = "Tomorrow"
+                } else if days > 1 {
+                    daysLabel.text = "\(days) days"
+                } else {
+                    daysLabel.text = "Past"
+                }
+            } else {
+                daysLabel.text = "No events"
+            }
+        }
+    }
+    
+    func configure(for event: EKEvent) {
+        iconView.image = UIImage(systemName: "clock")
+        eventNameLabel.text = event.title ?? "Untitled Event"
+        eventDateLabel.text = formatDate(event.startDate, isAllDay: event.isAllDay)
+        calendarNameLabel.text = event.calendar.title
+        if let days = getDaysRemaining(for: event.startDate) {
             if days == 0 {
                 daysLabel.text = "Today"
             } else if days == 1 {

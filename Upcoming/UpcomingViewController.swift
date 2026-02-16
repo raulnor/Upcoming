@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import EventKit
+internal import EventKit
 
 class UpcomingViewController: UIViewController {
     private var upcomingItems: [UpcomingItem] = []
@@ -85,25 +85,6 @@ class UpcomingViewController: UIViewController {
         }
     }
 
-    private func getNextDate(for item: UpcomingItem) -> Date? {
-        switch item.type {
-        case .event:
-            return EventKitManager.shared.getEvent(withIdentifier: item.calendarIdentifier)?.startDate
-        case .calendar:
-            if let calendar = EventKitManager.shared.getCalendar(withIdentifier: item.calendarIdentifier) {
-                return EventKitManager.shared.getNextEvent(for: calendar)?.startDate
-            }
-            return nil
-        }
-    }
-
-    private func getDaysRemaining(for item: UpcomingItem) -> Int? {
-        guard let nextDate = getNextDate(for: item) else { return nil }
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.day], from: Date(), to: nextDate)
-        return components.day
-    }
-
     @objc private func addItemTapped() {
         let pickerVC = ItemPickerViewController()
         pickerVC.delegate = self
@@ -165,41 +146,17 @@ extension UpcomingViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UpcomingItemCell", for: indexPath) as! UpcomingItemCell
         let item = upcomingItems[indexPath.row]
 
-        var eventName = ""
-        var eventDate = ""
-        var calendarName = ""
-
         switch item.type {
         case .event:
             if let event = EventKitManager.shared.getEvent(withIdentifier: item.calendarIdentifier) {
-                eventName = event.title ?? "Untitled Event"
-                eventDate = formatDate(event.startDate, isAllDay: event.isAllDay)
-                calendarName = event.calendar.title
+                cell.configure(for: event)
             }
         case .calendar:
             if let calendar = EventKitManager.shared.getCalendar(withIdentifier: item.calendarIdentifier) {
-                if let nextEvent = EventKitManager.shared.getNextEvent(for: calendar) {
-                    eventName = nextEvent.title ?? "Untitled Event"
-                    eventDate = formatDate(nextEvent.startDate, isAllDay: nextEvent.isAllDay)
-                } else {
-                    eventName = "No upcoming events"
-                    eventDate = ""
-                }
-                calendarName = calendar.title
+                cell.configure(for: calendar)
             }
         }
-
-        let daysRemaining = getDaysRemaining(for: item)
-        cell.configure(eventName: eventName, eventDate: eventDate, calendarName: calendarName, daysRemaining: daysRemaining, type: item.type)
-
         return cell
-    }
-
-    private func formatDate(_ date: Date, isAllDay: Bool) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = isAllDay ? .none : .short
-        return formatter.string(from: date)
     }
 }
 
@@ -228,3 +185,9 @@ extension UpcomingViewController: ItemPickerDelegate {
     }
 }
 
+func formatDate(_ date: Date, isAllDay: Bool) -> String {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .medium
+    formatter.timeStyle = isAllDay ? .none : .short
+    return formatter.string(from: date)
+}

@@ -5,7 +5,7 @@
 //  Created by Travis Luckenbaugh on 2/15/26.
 //
 
-import EventKit
+internal import EventKit
 import Foundation
 
 class EventKitManager {

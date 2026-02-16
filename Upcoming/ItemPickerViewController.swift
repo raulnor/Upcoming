@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import EventKit
+internal import EventKit
 
 protocol ItemPickerDelegate: AnyObject {
     func didSelectItem(_ item: UpcomingItem)
@@ -58,6 +58,7 @@ class ItemPickerViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(UpcomingItemCell.self, forCellReuseIdentifier: "UpcomingItemCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(tableView)
@@ -96,14 +97,14 @@ extension ItemPickerViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UpcomingItemCell", for: indexPath) as! UpcomingItemCell
+        
         if isShowingEvents {
             let event = events[indexPath.row]
-            cell.textLabel?.text = event.title ?? "Untitled Event"
+            cell.configure(for: event)
         } else {
             let calendar = calendars[indexPath.row]
-            cell.textLabel?.text = calendar.title
+            cell.configure(for: calendar)
         }
 
         return cell
