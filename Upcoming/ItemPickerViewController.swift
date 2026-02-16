@@ -47,10 +47,11 @@ class ItemPickerViewController: UIViewController {
 
         view.addSubview(segmentedControl)
 
+        let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            segmentedControl.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+            segmentedControl.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 16),
+            segmentedControl.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -16)
         ])
     }
 
@@ -63,11 +64,12 @@ class ItemPickerViewController: UIViewController {
 
         view.addSubview(tableView)
 
+        let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 16),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: guide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: segmentedControl.topAnchor)
         ])
     }
 
