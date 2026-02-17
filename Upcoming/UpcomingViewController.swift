@@ -99,29 +99,7 @@ class UpcomingViewController: UIViewController {
     }
 
     private func showEventOrCalendar(for item: UpcomingItem) {
-        switch item.type {
-        case .event:
-            if let event = EventKitManager.shared.getEvent(withIdentifier: item.calendarIdentifier) {
-                showEventDetail(event)
-            } else {
-                showItemNotFoundAlert()
-            }
-        case .calendar:
-            if let calendar = EventKitManager.shared.getCalendar(withIdentifier: item.calendarIdentifier) {
-                showCalendarDetail(calendar)
-            } else {
-                showItemNotFoundAlert()
-            }
-        }
-    }
-
-    private func showEventDetail(_ event: EKEvent) {
-        let detailVC = EventDetailViewController(event: event)
-        navigationController?.pushViewController(detailVC, animated: true)
-    }
-
-    private func showCalendarDetail(_ calendar: EKCalendar) {
-        let detailVC = CalendarDetailViewController(calendar: calendar)
+        let detailVC = UpcomingDetailViewController(item: item)
         navigationController?.pushViewController(detailVC, animated: true)
     }
 
@@ -190,4 +168,12 @@ func formatDate(_ date: Date, isAllDay: Bool) -> String {
     formatter.dateStyle = .medium
     formatter.timeStyle = isAllDay ? .none : .short
     return formatter.string(from: date)
+}
+
+func formatEventDate(_ event: EKEvent) -> String {
+    if event.startDate == event.endDate {
+        return formatDate(event.startDate, isAllDay: event.isAllDay)
+    } else {
+        return "\(formatDate(event.startDate, isAllDay: event.isAllDay)) - \(formatDate(event.endDate, isAllDay: event.isAllDay))"
+    }
 }
