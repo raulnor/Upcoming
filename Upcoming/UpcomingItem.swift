@@ -46,6 +46,8 @@ func getDaysRemaining(for item: UpcomingItem) -> Int? {
 
 func getDaysRemaining(for date: Date) -> Int? {
     let calendar = Calendar.current
-    let components = calendar.dateComponents([.day], from: Date(), to: date)
+    let startOfToday = calendar.startOfDay(for: Date())
+    let startOfDate = calendar.startOfDay(for: date)
+    let components = calendar.dateComponents([.day], from: startOfToday, to: startOfDate)
     return components.day
 }

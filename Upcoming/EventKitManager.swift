@@ -41,12 +41,20 @@ class EventKitManager {
     func getNextEvent(for calendar: EKCalendar?) -> EKEvent? {
         guard let calendar else { return nil }
         let now = Date()
-        let oneYearFromNow = Calendar.current.date(byAdding: .year, value: 1, to: now)!
+        let end = Calendar.current.date(byAdding: .year, value: 1, to: now)!
 
-        let predicate = eventStore.predicateForEvents(withStart: now, end: oneYearFromNow, calendars: [calendar])
+        let predicate = eventStore.predicateForEvents(withStart: now, end: end, calendars: [calendar])
         let events = eventStore.events(matching: predicate)
 
         return events.first
+    }
+    
+    func getNextEvent(of event: EKEvent) -> EKEvent? {
+        let now = Date()
+        let end = Calendar.current.date(byAdding: .year, value: 1, to: now)!
+        let predicate = eventStore.predicateForEvents(withStart: now, end: end, calendars: [event.calendar])
+        return eventStore.events(matching: predicate)
+            .first { $0.calendarItemIdentifier == event.calendarItemIdentifier }
     }
 
     func getAllCalendars() -> [EKCalendar] {
