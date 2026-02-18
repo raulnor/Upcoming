@@ -23,7 +23,7 @@ class ItemPickerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor.appBackground
         title = "Add Upcoming Item"
 
         setupNavigationBar()

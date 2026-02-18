@@ -14,7 +14,7 @@ class UpcomingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor.appBackground
         title = "Upcoming"
 
         setupNavigationBar()
@@ -32,6 +32,7 @@ class UpcomingViewController: UIViewController {
     }
 
     private func setupTableView() {
+        tableView.backgroundColor = UIColor.appBackground
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UpcomingItemCell.self, forCellReuseIdentifier: "UpcomingItemCell")

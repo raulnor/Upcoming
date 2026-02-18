@@ -9,7 +9,6 @@ import UIKit
 internal import EventKit
 
 class UpcomingItemCell: UITableViewCell {
-    private let iconView = UIImageView()
     private let eventNameLabel = UILabel()
     private let daysLabel = UILabel()
     private let eventDateLabel = UILabel()
@@ -25,24 +24,18 @@ class UpcomingItemCell: UITableViewCell {
     }
 
     private func setupViews() {
-        // Icon setup
-        iconView.contentMode = .scaleAspectFit
-        iconView.tintColor = .systemBlue
-        iconView.translatesAutoresizingMaskIntoConstraints = false
-
-        // Event name label
+        backgroundColor = UIColor.appBackground
+        
         eventNameLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         eventNameLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        // Days label
         daysLabel.font = .systemFont(ofSize: 17, weight: .medium)
-        daysLabel.textColor = .systemBlue
+        daysLabel.textColor = UIColor.appAccent
         daysLabel.textAlignment = .right
         daysLabel.translatesAutoresizingMaskIntoConstraints = false
         daysLabel.setContentHuggingPriority(.required, for: .horizontal)
         daysLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
 
-        // Event date label
         eventDateLabel.font = .systemFont(ofSize: 14)
         eventDateLabel.textColor = .secondaryLabel
         eventDateLabel.textAlignment = .right
@@ -50,12 +43,10 @@ class UpcomingItemCell: UITableViewCell {
         eventDateLabel.setContentHuggingPriority(.required, for: .horizontal)
         eventDateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
 
-        // Calendar name label
         calendarNameLabel.font = .systemFont(ofSize: 14)
         calendarNameLabel.textColor = .secondaryLabel
         calendarNameLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        // Top row container (event name + days)
         let topRowStack = UIStackView(arrangedSubviews: [eventNameLabel, daysLabel])
         topRowStack.axis = .horizontal
         topRowStack.spacing = 8
@@ -73,26 +64,18 @@ class UpcomingItemCell: UITableViewCell {
         infoStack.spacing = 4
         infoStack.translatesAutoresizingMaskIntoConstraints = false
 
-        contentView.addSubview(iconView)
         contentView.addSubview(infoStack)
 
         NSLayoutConstraint.activate([
-            // Icon constraints
-            iconView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            iconView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            iconView.widthAnchor.constraint(equalToConstant: 24),
-            iconView.heightAnchor.constraint(equalToConstant: 24),
-
             // Info stack constraints
-            infoStack.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: 12),
-            infoStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            infoStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            infoStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+            infoStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            infoStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            infoStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            infoStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
     
     func configure(for calendar: EKCalendar) {
-        iconView.image = UIImage(systemName: "calendar")
         if let nextEvent = EventKitManager.shared.getNextEvent(for: calendar) {
             eventNameLabel.text = nextEvent.title ?? "Untitled Event"
             eventDateLabel.text = formatDate(nextEvent.startDate, isAllDay: nextEvent.isAllDay)
@@ -114,7 +97,6 @@ class UpcomingItemCell: UITableViewCell {
     }
     
     func configure(for event: EKEvent) {
-        iconView.image = UIImage(systemName: "clock")
         eventNameLabel.text = event.title ?? "Untitled Event"
         eventDateLabel.text = formatDate(event.startDate, isAllDay: event.isAllDay)
         calendarNameLabel.text = event.calendar.title
