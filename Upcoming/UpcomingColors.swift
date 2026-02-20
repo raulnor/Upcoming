@@ -10,4 +10,6 @@ import UIKit
 extension UIColor {
     static let appAccent = UIColor(named: "AccentColor") ?? .systemBlue
     static let appBackground = UIColor(named: "BackgroundColor") ?? .systemBackground
+    static let appPrimaryLabel = UIColor(named: "PrimaryLabelColor") ?? .white
+    static let appSecondaryLabel = UIColor(named: "SecondaryLabelColor") ?? .gray
 }

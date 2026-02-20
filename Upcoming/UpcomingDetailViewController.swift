@@ -32,13 +32,15 @@ class UpcomingDetailViewController: UIViewController, UITableViewDataSource, UIT
         view.backgroundColor = UIColor.appBackground
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.textColor = .appPrimaryLabel
         titleLabel.font = .preferredFont(forTextStyle: .title1)
         view.addSubview(titleLabel)
         
         detailLabel.translatesAutoresizingMaskIntoConstraints = false
-        detailLabel.textColor = .secondaryLabel
+        detailLabel.textColor = .appSecondaryLabel
         view.addSubview(detailLabel)
         
+        tableView.backgroundColor = UIColor.appBackground
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UpcomingItemCell.self, forCellReuseIdentifier: "UpcomingItemCell")
@@ -50,12 +52,12 @@ class UpcomingDetailViewController: UIViewController, UITableViewDataSource, UIT
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: guide.topAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: 8),
+            titleLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 28),
+            titleLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -24),
             
-            detailLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            detailLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 8),
-            detailLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: 8),
+            detailLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
+            detailLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 28),
+            detailLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -24),
             
             tableView.topAnchor.constraint(equalTo: detailLabel.bottomAnchor, constant: 8),
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 8),

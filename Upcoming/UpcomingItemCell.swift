@@ -27,6 +27,7 @@ class UpcomingItemCell: UITableViewCell {
         backgroundColor = UIColor.appBackground
         
         eventNameLabel.font = .systemFont(ofSize: 17, weight: .semibold)
+        eventNameLabel.textColor = UIColor.appPrimaryLabel
         eventNameLabel.translatesAutoresizingMaskIntoConstraints = false
 
         daysLabel.font = .systemFont(ofSize: 17, weight: .medium)
@@ -37,14 +38,14 @@ class UpcomingItemCell: UITableViewCell {
         daysLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         eventDateLabel.font = .systemFont(ofSize: 14)
-        eventDateLabel.textColor = .secondaryLabel
+        eventDateLabel.textColor = UIColor.appSecondaryLabel
         eventDateLabel.textAlignment = .right
         eventDateLabel.translatesAutoresizingMaskIntoConstraints = false
         eventDateLabel.setContentHuggingPriority(.required, for: .horizontal)
         eventDateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         calendarNameLabel.font = .systemFont(ofSize: 14)
-        calendarNameLabel.textColor = .secondaryLabel
+        calendarNameLabel.textColor = UIColor.appSecondaryLabel
         calendarNameLabel.translatesAutoresizingMaskIntoConstraints = false
 
         let topRowStack = UIStackView(arrangedSubviews: [eventNameLabel, daysLabel])
