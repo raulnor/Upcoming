@@ -127,7 +127,7 @@ extension UpcomingViewController: UITableViewDataSource {
 
         switch item.type {
         case .event:
-            if let event = EventKitManager.shared.getEvent(withIdentifier: item.calendarIdentifier) {
+            if let event = EventKitManager.shared.getNextEvent(withIdentifier: item.calendarIdentifier) {
                 cell.configure(for: event)
             }
         case .calendar:

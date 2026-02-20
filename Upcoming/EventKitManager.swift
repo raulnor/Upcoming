@@ -33,6 +33,18 @@ class EventKitManager {
     func getEvent(withIdentifier identifier: String) -> EKEvent? {
         return eventStore.event(withIdentifier: identifier)
     }
+    
+    func getNextEvent(withIdentifier identifier: String) -> EKEvent? {
+        guard let rootEvent = eventStore.event(withIdentifier: identifier) else { return nil }
+        if rootEvent.startDate < Date() && rootEvent.recurrenceRules?.first != nil {
+            let now = Date()
+            let end = Calendar.current.date(byAdding: .year, value: 1, to: now)!
+            let predicate = eventStore.predicateForEvents(withStart: now, end: end, calendars: [rootEvent.calendar])
+            return eventStore.events(matching: predicate)
+                .first { $0.calendarItemIdentifier == rootEvent.calendarItemIdentifier }
+        }
+        return rootEvent
+    }
 
     func getCalendar(withIdentifier identifier: String) -> EKCalendar? {
         return eventStore.calendar(withIdentifier: identifier)
@@ -47,14 +59,6 @@ class EventKitManager {
         let events = eventStore.events(matching: predicate)
 
         return events.first
-    }
-    
-    func getNextEvent(of event: EKEvent) -> EKEvent? {
-        let now = Date()
-        let end = Calendar.current.date(byAdding: .year, value: 1, to: now)!
-        let predicate = eventStore.predicateForEvents(withStart: now, end: end, calendars: [event.calendar])
-        return eventStore.events(matching: predicate)
-            .first { $0.calendarItemIdentifier == event.calendarItemIdentifier }
     }
 
     func getAllCalendars() -> [EKCalendar] {
