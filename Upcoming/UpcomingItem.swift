@@ -6,7 +6,7 @@
 //
 
 import Foundation
-internal import EventKit
+import EventKit
 
 enum UpcomingItemType: String, Codable {
     case event
@@ -35,13 +35,6 @@ func getNextDate(for item: UpcomingItem) -> Date? {
         }
         return nil
     }
-}
-
-func getDaysRemaining(for item: UpcomingItem) -> Int? {
-    guard let nextDate = getNextDate(for: item) else { return nil }
-    let calendar = Calendar.current
-    let components = calendar.dateComponents([.day], from: Date(), to: nextDate)
-    return components.day
 }
 
 func getDaysRemaining(for date: Date) -> Int? {

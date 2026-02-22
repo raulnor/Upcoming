@@ -6,7 +6,7 @@
 //
 
 import UIKit
-internal import EventKit
+import EventKit
 
 protocol ItemPickerDelegate: AnyObject {
     func didSelectItem(_ item: UpcomingItem)

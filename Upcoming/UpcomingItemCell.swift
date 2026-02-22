@@ -6,7 +6,7 @@
 //
 
 import UIKit
-internal import EventKit
+import EventKit
 
 class UpcomingItemCell: UITableViewCell {
     private let iconLabel = UILabel()
@@ -38,7 +38,7 @@ class UpcomingItemCell: UITableViewCell {
         eventNameLabel.translatesAutoresizingMaskIntoConstraints = false
 
         daysLabel.font = .systemFont(ofSize: 17, weight: .medium)
-        daysLabel.textColor = UIColor.appAccent
+        daysLabel.textColor = UIColor.accent
         daysLabel.textAlignment = .right
         daysLabel.translatesAutoresizingMaskIntoConstraints = false
         daysLabel.setContentHuggingPriority(.required, for: .horizontal)

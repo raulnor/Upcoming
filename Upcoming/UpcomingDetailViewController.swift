@@ -6,7 +6,7 @@
 //
 
 import UIKit
-internal import EventKit
+import EventKit
 
 class UpcomingDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private let titleLabel = UILabel()

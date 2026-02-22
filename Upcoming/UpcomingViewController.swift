@@ -6,7 +6,7 @@
 //
 
 import UIKit
-internal import EventKit
+import EventKit
 
 class UpcomingViewController: UIViewController {
     private var upcomingItems: [UpcomingItem] = []
